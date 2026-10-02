@@ -13,6 +13,9 @@ if (-not ([Security.Principal.WindowsPrincipal]$id).IsInRole([Security.Principal
     Write-Host "Ejecuta este script desde PowerShell como administrador."; exit 1
 }
 
+# Files from a downloaded zip carry the "from the internet" mark; clear it so Windows runs them.
+Get-ChildItem $PSScriptRoot -File | Unblock-File
+
 # A fresh clone has no binaries: build them first.
 if (-not (Test-Path (Join-Path $PSScriptRoot 'FingerprintLock.exe')) -or -not (Test-Path (Join-Path $PSScriptRoot 'FingerprintLockApp.exe'))) {
     Write-Host "Compilando..."
